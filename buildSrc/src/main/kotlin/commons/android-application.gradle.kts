@@ -32,13 +32,13 @@ android {
     }
 
 
-    buildFeatures{
-        viewBinding=true
-        dataBinding=true
+    buildFeatures {
+        viewBinding = true
+        dataBinding = true
     }
 
-//ToDo why
-    /*sourceSets {
+    // see this ref: https://developer.android.com/kotlin/add-kotlin#source
+    sourceSets {
         getByName("main") {
             java.srcDir("src/main/kotlin")
         }
@@ -48,14 +48,14 @@ android {
         getByName("androidTest") {
             java.srcDir("src/androidTest/kotlin")
         }
-    }*/
-
-   /* lint {
-        lintConfig = rootProject.file(".lint/config.xml")
-        checkAllWarnings = true
-        warningsAsErrors = true
     }
-*/
+
+    /* lint {
+         lintConfig = rootProject.file(".lint/config.xml")
+         checkAllWarnings = true
+         warningsAsErrors = true
+     } */
+
     configurations.all {
         resolutionStrategy.force("com.google.code.findbugs:jsr305:1.3.9")
     }
@@ -72,6 +72,5 @@ dependencies {
     implementation(Dependencies.DAGGER_ANDROID)
     implementation(Dependencies.DAGGER_ANDROID_SUPPORT)
     kapt(AnnotationProcessorsDependencies.DAGGER_COMPILER)
-    annotationProcessor(AnnotationProcessorsDependencies.DAGGER_ANDROID_PROCESSOR)
     kapt(AnnotationProcessorsDependencies.DAGGER_ANDROID_PROCESSOR)
 }

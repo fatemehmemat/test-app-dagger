@@ -1,10 +1,10 @@
 import dependencies.AndroidTestDependencies
+import dependencies.AnnotationProcessorsDependencies
 import dependencies.Dependencies
 import dependencies.TestDependencies
 
 plugins {
     id(Plugins.ANDROID_APPLICATION)
-    id("org.jetbrains.kotlin.android")
 }
 
 dependencies {
@@ -14,8 +14,6 @@ dependencies {
 
     implementation(Dependencies.COROUTINES_CORE)
     implementation(Dependencies.COROUTINES_ANDROID)
-
-
 
     implementation(Dependencies.LIFE_CYCLE_VIEW_MODEL)
     implementation(Dependencies.LIFE_CYCLE_LIVE_DATA)
@@ -28,21 +26,17 @@ dependencies {
     implementation(Dependencies.LIFE_CYCLE_REACTIVESTREAMS)
     implementation(Dependencies.DATA_SORE_PREFERENCES)
     implementation(Dependencies.DATA_SORE_CORE)
-    testImplementation(Dependencies.CORE_TESTING)
-
 
     implementation(Dependencies.ROOM_RUNTIME)
     implementation(Dependencies.ROOM_KTX)
     implementation(Dependencies.ROOM_GUAVA)
     implementation(Dependencies.ROOM_PAGING)
-    kapt(Dependencies.ROOM_COMPILER)
-    testImplementation(Dependencies.ROOM_TESTING)
+    kapt(AnnotationProcessorsDependencies.ROOM_COMPILER)
 
     implementation(Dependencies.NAVIGATION_FRAGMENT)
     implementation(Dependencies.NAVIGATION_UI)
     implementation(Dependencies.NAVIGATION_FEATURES)
     implementation(Dependencies.NAVIGATION_COMPOSE)
-
 
     implementation(Dependencies.RECYCLERVIEW)
 
@@ -51,9 +45,7 @@ dependencies {
     implementation(Dependencies.GSON)
     implementation(Dependencies.INTERCEPTOR)
 
-
     testImplementation(TestDependencies.JUNIT)
     androidTestImplementation(AndroidTestDependencies.EXT_JUNIT)
     androidTestImplementation(AndroidTestDependencies.ESPRESSO)
-
 }

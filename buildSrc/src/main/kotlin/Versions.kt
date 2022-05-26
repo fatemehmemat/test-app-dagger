@@ -4,8 +4,6 @@ object Versions {
     const val MATERIAL = "1.6.0"
     const val CONSTRAIN_LAYOUT = "1.6.0"
 
-
-
     const val DAGGER = "2.42"
 
     const val COROUTINES = "1.5.2"
@@ -32,6 +30,7 @@ object Versions {
 
 
     // Others
-    //TODO why
+    // Ktlint is not a dependency to be used in the project
+    // It's just a gradle plugin
     const val KTLINT = "0.45.2"
 }

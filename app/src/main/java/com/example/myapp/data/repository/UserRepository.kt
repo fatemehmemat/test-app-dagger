@@ -1,18 +1,11 @@
-package com.example.myapp.data.remote
+package com.example.myapp.data.repository
 
 import com.example.myapp.data.model.Users
-import kotlinx.coroutines.Dispatchers
+import com.example.myapp.data.remote.ApiHelper
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.flow
-import kotlinx.coroutines.flow.flowOn
 import retrofit2.Response
 import javax.inject.Inject
 
-class UserRepository @Inject constructor(private val apiHelper: ApiHelper){
-    suspend fun getUserListFromServerFlow(): Flow<Response<List<Users>>> {
-        return flow {
-            val userList=apiHelper.getUserList()
-            emit(userList)
-        }.flowOn(Dispatchers.IO)
-    }
+class UserRepository @Inject constructor(private val apiHelper: ApiHelper) {
+    fun getUserListFromServerFlow(): Flow<Response<List<Users>>> = apiHelper.getUsers()
 }

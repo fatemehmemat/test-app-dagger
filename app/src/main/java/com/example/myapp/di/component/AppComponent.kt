@@ -4,7 +4,7 @@ import android.content.Context
 import com.example.myapp.CoreApp
 import com.example.myapp.di.ApplicationContext
 import com.example.myapp.di.modules.ActivityBuilder
-import com.example.myapp.di.modules.DataModule
+import com.example.myapp.di.modules.NetworkModule
 import com.example.myapp.di.modules.RetrofitModule
 import com.example.myapp.di.modules.ViewModelModule
 import dagger.BindsInstance
@@ -16,10 +16,10 @@ import javax.inject.Singleton
 @Component(
     modules = [
         AndroidInjectionModule::class,
-        DataModule::class,
         ActivityBuilder::class,
         ViewModelModule::class,
-        RetrofitModule::class
+        RetrofitModule::class,
+        NetworkModule::class,
     ]
 )
 interface AppComponent {

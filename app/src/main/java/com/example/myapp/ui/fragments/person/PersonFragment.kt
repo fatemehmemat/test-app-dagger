@@ -1,4 +1,4 @@
-package com.example.myapp.ui.fragments
+package com.example.myapp.ui.fragments.person
 
 import android.os.Bundle
 import android.util.Log
@@ -13,7 +13,6 @@ import com.example.myapp.R
 import com.example.myapp.data.remote.ApiService
 import com.example.myapp.databinding.FragmentPersonBinding
 import com.example.myapp.ui.adapters.UserAdapters
-import com.example.myapp.ui.viewmodel.UserViewModel
 import com.example.myapp.utils.Status
 import dagger.android.AndroidInjector
 import dagger.android.DispatchingAndroidInjector
@@ -21,9 +20,10 @@ import dagger.android.HasAndroidInjector
 import dagger.android.support.AndroidSupportInjection
 import javax.inject.Inject
 
-
 class PersonFragment : Fragment(), HasAndroidInjector {
-    private val TAG = "PersonFragment"
+    companion object{
+        private const val TAG = "PersonFragment"
+    }
     private lateinit var binding: FragmentPersonBinding
     private lateinit var userAdapters: UserAdapters
 
@@ -33,10 +33,11 @@ class PersonFragment : Fragment(), HasAndroidInjector {
     @Inject
     lateinit var dispatchingAndroidInjector: DispatchingAndroidInjector<Any>
 
-    private val viewModel by lazy {
-        ViewModelProvider(this, viewModelFactory)[UserViewModel::class.java]
-    }
+    override fun androidInjector(): AndroidInjector<Any> = dispatchingAndroidInjector
 
+    private val viewModel by lazy {
+        ViewModelProvider(this, viewModelFactory)[PersonViewModel::class.java]
+    }
 
     @Inject
     lateinit var apiService: ApiService
@@ -61,7 +62,6 @@ class PersonFragment : Fragment(), HasAndroidInjector {
                 userAdapters.submitList(it.data)
             }
         }
-
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -72,12 +72,5 @@ class PersonFragment : Fragment(), HasAndroidInjector {
             layoutManager = LinearLayoutManager(context)
             adapter = userAdapters
         }
-
     }
-
-    override fun androidInjector(): AndroidInjector<Any> {
-        return dispatchingAndroidInjector
-    }
-
-
 }

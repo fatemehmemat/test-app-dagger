@@ -1,39 +1,32 @@
 package com.example.myapp.data.dataStore
 
 import android.content.Context
-import androidx.datastore.core.DataStore
-import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.preferences.core.edit
+import androidx.datastore.preferences.core.stringPreferencesKey
 import androidx.datastore.preferences.preferencesDataStore
 import com.example.myapp.di.ApplicationContext
+import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 import javax.inject.Inject
 
-class DataStoreManager @Inject constructor(context: Context) {
-    private val Context.dataStore: DataStore<Preferences> by preferencesDataStore(ConstDataStore.DATA_STORE_KEY)
-    private val dataStore: DataStore<Preferences> = context.dataStore
-
-
-    suspend fun setToken(token: String) {
-        dataStore.edit { dataStore ->
-            dataStore[ConstDataStore.TOKEN_KEY] = token
-        }
+// @Singleton//?????
+class DataStoreManager @Inject constructor(@ApplicationContext private val context: Context) {
+    companion object ConstDataStore {
+        private const val DATA_STORE_KEY = "data_store_key"
+        private val TOKEN_KEY = stringPreferencesKey("token_key")
     }
 
-    fun getToken(): kotlinx.coroutines.flow.Flow<String> {
-        val token: kotlinx.coroutines.flow.Flow<String> = dataStore.data
-            .map {
-                val token = it[ConstDataStore.TOKEN_KEY] ?: ""
-                token
-            }
+    private val Context.dataStore by preferencesDataStore(DATA_STORE_KEY)
 
-        return token
+    suspend fun saveToken(token: String) = with(context) {
+        dataStore.edit { it[TOKEN_KEY] = token }
     }
 
-    suspend fun clearDataStore() {
-        dataStore.edit {
-            it.clear()
-        }
+    fun getToken(): Flow<String> = context.dataStore.data.map {
+        it[TOKEN_KEY] ?: ""
     }
 
+    suspend fun clearToken() = with(context) {
+        dataStore.edit { it.clear() }
+    }
 }

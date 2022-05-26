@@ -10,12 +10,7 @@ import javax.inject.Inject
 
 class ApiHelperImpl @Inject constructor(private val apiService: ApiService) : ApiHelper {
 
-    override suspend fun getUserList(): Response<List<Users>> {
-        return apiService.getUserList()
-    }
-
-    override suspend fun getUsers(): Flow<Response<List<Users>>> {
-        return flow { emit(apiService.getUserList()) }.flowOn(Dispatchers.IO)
-    }
-
+    override fun getUsers(): Flow<Response<List<Users>>> = flow {
+        emit(apiService.getUserList())
+    }.flowOn(Dispatchers.IO)
 }
