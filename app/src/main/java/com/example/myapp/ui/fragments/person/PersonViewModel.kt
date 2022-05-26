@@ -1,20 +1,19 @@
-package com.example.myapp.ui.viewmodel
+package com.example.myapp.ui.fragments.person
 
 import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.liveData
 import com.example.myapp.data.model.Users
-import com.example.myapp.data.remote.UserRepository
+import com.example.myapp.data.repository.UserRepository
 import com.example.myapp.utils.NetworkHelper
 import com.example.myapp.utils.Resource
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.collect
-import kotlinx.coroutines.flow.onStart
 import javax.inject.Inject
 
-class UserViewModel @Inject constructor(
+class PersonViewModel @Inject constructor(
     private val networkHelper: NetworkHelper,
     private val userRepository: UserRepository
 ) : ViewModel() {

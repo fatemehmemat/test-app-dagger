@@ -5,9 +5,12 @@ import android.content.Context
 import android.net.ConnectivityManager
 import android.net.NetworkCapabilities
 import android.os.Build
+import com.example.myapp.di.ApplicationContext
 import javax.inject.Inject
+import javax.inject.Singleton
 
-class NetworkHelper @Inject constructor(private val context: Context) {
+@Singleton
+class NetworkHelper @Inject constructor(@ApplicationContext private val context: Context) {
 
     @SuppressLint("ObsoleteSdkInt")
     fun isNetworkConnected(): Boolean {

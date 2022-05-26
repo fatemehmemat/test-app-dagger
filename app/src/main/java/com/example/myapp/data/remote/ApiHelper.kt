@@ -5,8 +5,6 @@ import kotlinx.coroutines.flow.Flow
 import retrofit2.Response
 
 interface ApiHelper {
-    suspend fun getUserList(): Response<List<Users>>
 
-    suspend fun getUsers(): Flow<Response<List<Users>>>
-
+    fun getUsers(): Flow<Response<List<Users>>>
 }
