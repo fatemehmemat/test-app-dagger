@@ -12,15 +12,15 @@ internal interface ActivityModule
 
 @Module
 internal interface FragmentBuilder {
-    @ContributesAndroidInjector(modules = [FragmentModule::class, ChildFragmentBuilder::class])
+    @ContributesAndroidInjector(modules = [PersonFragmentModule::class, PersonChildFragmentBuilder::class])
     @FragmentScope
     fun personFragment(): PersonFragment
 
-    @ContributesAndroidInjector(modules = [FragmentModule::class, ChildFragmentBuilder::class])
+    @ContributesAndroidInjector(modules = [HomeFragmentModule::class, HomeChildFragmentBuilder::class])
     @FragmentScope
     fun homeFragment(): HomeFragment
 
-    @ContributesAndroidInjector(modules = [FragmentModule::class, ChildFragmentBuilder::class])
+    @ContributesAndroidInjector(modules = [SettingsFragmentModule::class, SettingsChildFragmentBuilder::class])
     @FragmentScope
     fun settingFragment(): SettingsFragment
 }

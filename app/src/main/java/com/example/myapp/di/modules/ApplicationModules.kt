@@ -1,13 +1,18 @@
 package com.example.myapp.di.modules
 
 import android.annotation.SuppressLint
+import android.content.Context
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
-import com.example.myapp.data.remote.ApiHelper
-import com.example.myapp.data.remote.ApiHelperImpl
-import com.example.myapp.data.remote.ApiInfo
-import com.example.myapp.data.remote.ApiService
+import androidx.room.Room
+import com.example.myapp.data.api.ApiHelper
+import com.example.myapp.data.api.ApiHelperImpl
+import com.example.myapp.data.api.ApiInfo
+import com.example.myapp.data.api.ApiService
+import com.example.myapp.data.room.AppDatabase
+import com.example.myapp.data.room.dao.UserDao
 import com.example.myapp.di.ActivityScope
+import com.example.myapp.di.ApplicationContext
 import com.example.myapp.di.ViewModelKey
 import com.example.myapp.ui.ViewModelFactory
 import com.example.myapp.ui.activities.MainActivity
@@ -30,6 +35,7 @@ import javax.net.ssl.SSLContext
 import javax.net.ssl.TrustManager
 import javax.net.ssl.X509TrustManager
 
+//Use @Binds to tell Dagger which implementation it needs to use when providing an interface or abstract class
 @Module
 internal interface ViewModelModule {
     @Binds
@@ -49,12 +55,7 @@ interface ActivityBuilder {
     fun MainActivity(): MainActivity
 }
 
-@Module
-internal interface NetworkModule {
-    @Binds
-    //@Singleton//??????
-    fun provideApiHelper(apiHelper: ApiHelperImpl): ApiHelper
-}
+
 
 @Module
 internal class RetrofitModule {
@@ -67,6 +68,7 @@ internal class RetrofitModule {
             val trustAllCerts = arrayOf<TrustManager>(
                 @SuppressLint("CustomX509TrustManager")
                 object : X509TrustManager {
+                    @SuppressLint("TrustAllX509TrustManager")
                     @Throws(CertificateException::class)
                     override fun checkClientTrusted(
                         chain: Array<X509Certificate>,
@@ -74,6 +76,7 @@ internal class RetrofitModule {
                     ) {
                     }
 
+                    @SuppressLint("TrustAllX509TrustManager")
                     @Throws(CertificateException::class)
                     override fun checkServerTrusted(
                         chain: Array<X509Certificate>,
@@ -126,4 +129,33 @@ internal class RetrofitModule {
     fun provideApiService(retrofit: Retrofit): ApiService {
         return retrofit.create(ApiService::class.java)
     }
+
+//for optimization use below
+  /*  @Provides
+    @Singleton
+    fun provideApiHelper(apiHelper: ApiHelperImpl): ApiHelper = apiHelper*/
+}
+//for optimization
+@Module
+internal interface NetworkModule {
+    @Binds
+    @Singleton
+    fun provideApiHelper(apiHelper: ApiHelperImpl): ApiHelper
+}
+@Module
+internal class RoomModule() {
+    @Singleton
+    @Provides
+    fun getUserDao(appDatabase: AppDatabase): UserDao {
+        return appDatabase.userDao
+    }
+
+    @Singleton
+    @Provides
+    fun getRoomDbInstance(@ApplicationContext application: Context): AppDatabase {
+        return Room.databaseBuilder(application, AppDatabase::class.java, "app_db")
+            .fallbackToDestructiveMigration()
+            .build()
+    }
+
 }

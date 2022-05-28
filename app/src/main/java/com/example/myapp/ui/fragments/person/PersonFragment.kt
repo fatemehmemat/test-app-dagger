@@ -10,7 +10,7 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.myapp.R
-import com.example.myapp.data.remote.ApiService
+import com.example.myapp.data.api.ApiService
 import com.example.myapp.databinding.FragmentPersonBinding
 import com.example.myapp.ui.adapters.UserAdapters
 import com.example.myapp.utils.Status
@@ -72,5 +72,6 @@ class PersonFragment : Fragment(), HasAndroidInjector {
             layoutManager = LinearLayoutManager(context)
             adapter = userAdapters
         }
+        
     }
 }
