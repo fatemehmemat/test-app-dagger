@@ -3,30 +3,25 @@ package commons
 import AndroidConfigs
 import Build
 import DebugBuild
-import Modules
 import ReleaseBuild
-import dependencies.AnnotationProcessorsDependencies
-import dependencies.DebugDependencies
 import dependencies.Dependencies
 import extensions.implementation
+import gradle.kotlin.dsl.accessors._36626f7cafa7add98e7dfe6126f1faec.implementation
 
 plugins {
-    id("com.android.application")
+    id("com.android.library")
     id("kotlin-android")
-    id("kotlin-kapt")
-    id("androidx.navigation.safeargs")
 }
 
 android {
     compileSdk = AndroidConfigs.COMPILE_SDK
 
     defaultConfig {
-        applicationId = AndroidConfigs.APPLICATION_ID
         minSdk = AndroidConfigs.MIN_SDK
         targetSdk = AndroidConfigs.TARGET_SDK
-        versionCode = AndroidConfigs.VERSION_CODE
-        versionName = AndroidConfigs.VERSION_NAME
+
         testInstrumentationRunner = AndroidConfigs.TEST_INSTRUMENTATION_RUNNER
+        consumerProguardFiles("consumer-rules.pro")
     }
 
     buildFeatures {
@@ -36,7 +31,6 @@ android {
     buildTypes {
         getByName(Build.RELEASE) {
             isMinifyEnabled = ReleaseBuild.isMinifyEnabled
-            isShrinkResources = ReleaseBuild.isShrinkResources
             proguardFiles(
                 getDefaultProguardFile("proguard-android-optimize.txt"),
                 "proguard-rules.pro"
@@ -45,9 +39,6 @@ android {
 
         getByName(Build.DEBUG) {
             isMinifyEnabled = DebugBuild.isMinifyEnabled
-            isShrinkResources = DebugBuild.isShrinkResources
-            applicationIdSuffix = DebugBuild.applicationIdSuffix
-            versionNameSuffix = DebugBuild.versionNameSuffix
         }
     }
 
@@ -60,18 +51,12 @@ android {
         jvmTarget = JavaVersion.VERSION_1_8.toString()
     }
 
-    buildFeatures {
-        dataBinding = true
-    }
     sourceSets {
         getByName("main") {
             java.srcDir("src/main/kotlin")
         }
         getByName("test") {
             java.srcDir("src/test/kotlin")
-        }
-        getByName("androidTest") {
-            java.srcDir("src/androidTest/kotlin")
         }
     }
 
@@ -82,18 +67,7 @@ android {
     }
 }
 
-// Allow references to generated code for dagger
-kapt {
-    correctErrorTypes = true
-}
-
 dependencies {
-    implementation(project(Modules.Features.ONBOARD))
-    implementation(project(Modules.Features.HOME))
-    implementation(project(Modules.Features.SEARCH))
-    implementation(project(Modules.Features.CALL))
-    implementation(project(Modules.Features.FEEDBACK))
-    implementation(project(Modules.COMMONS))
     implementation(project(Modules.DOMAIN))
     implementation(project(Modules.DATA))
     implementation(project(Modules.Core.UTILS))
@@ -102,15 +76,8 @@ dependencies {
     implementation(Dependencies.CORE_KTX)
     implementation(Dependencies.APPCOMPAT)
 
-    implementation(Dependencies.DAGGER)
     implementation(Dependencies.DAGGER_ANDROID)
-    kapt(AnnotationProcessorsDependencies.DAGGER_COMPILER)
-    kapt(AnnotationProcessorsDependencies.DAGGER_ANDROID_PROCESSOR)
+    implementation(Dependencies.DAGGER_ANDROID_SUPPORT)
 
     implementation(Dependencies.KOTLINX_COROUTINES_ANDROID)
-
-    implementation(Dependencies.NAVIGATION_FRAGMENT_KTX)
-    implementation(Dependencies.NAVIGATION_UI_KTX)
-
-    debugImplementation(DebugDependencies.LEAKCANARY_ANDROID)
 }

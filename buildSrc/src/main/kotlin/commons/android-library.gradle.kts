@@ -1,6 +1,8 @@
 package commons
 
 import AndroidConfigs
+import dependencies.Dependencies
+import extensions.implementation
 
 plugins {
     id("com.android.library")
@@ -13,6 +15,27 @@ android {
     defaultConfig {
         minSdk = AndroidConfigs.MIN_SDK
         targetSdk = AndroidConfigs.TARGET_SDK
+
+        testInstrumentationRunner = AndroidConfigs.TEST_INSTRUMENTATION_RUNNER
+        consumerProguardFiles("consumer-rules.pro")
+    }
+
+    buildFeatures {
+        viewBinding = true
+    }
+
+    buildTypes {
+        getByName(Build.RELEASE) {
+            isMinifyEnabled = ReleaseBuild.isMinifyEnabled
+            proguardFiles(
+                getDefaultProguardFile("proguard-android-optimize.txt"),
+                "proguard-rules.pro"
+            )
+        }
+
+        getByName(Build.DEBUG) {
+            isMinifyEnabled = DebugBuild.isMinifyEnabled
+        }
     }
 
     compileOptions {
@@ -34,8 +57,21 @@ android {
     }
 
     lint {
-        lintConfig = rootProject.file(".lint/config.xml")
+        lintConfig = rootProject.file("lint.xml")
         checkAllWarnings = true
         warningsAsErrors = true
     }
+}
+
+dependencies {
+
+    implementation(Dependencies.CORE_KTX)
+    implementation(Dependencies.APPCOMPAT)
+
+    implementation(Dependencies.DAGGER_ANDROID)
+    implementation(Dependencies.DAGGER_ANDROID_SUPPORT)
+
+    implementation(Dependencies.KOTLINX_COROUTINES_ANDROID)
+
+    implementation(Dependencies.NAVIGATION_FRAGMENT_KTX)
 }

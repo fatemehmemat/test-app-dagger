@@ -1,6 +1,8 @@
 package plugins
 
+import Versions
 import com.diffplug.gradle.spotless.SpotlessExtension
+import com.diffplug.gradle.spotless.SpotlessExtensionPredeclare
 import com.diffplug.gradle.spotless.SpotlessPlugin
 
 apply<SpotlessPlugin>()
@@ -30,12 +32,14 @@ configure<SpotlessExtension> {
         trimTrailingWhitespace()
         indentWithSpaces()
         endWithNewline()
+        toggleOffOn("spotless:off", "spotless:on")
     }
     format("xml") {
         target("**/res/**/*.xml")
         indentWithSpaces(4)
         trimTrailingWhitespace()
         endWithNewline()
+        toggleOffOn("spotless:off", "spotless:on")
     }
     kotlin {
         target(
@@ -43,7 +47,10 @@ configure<SpotlessExtension> {
                 mapOf(
                     "dir" to ".",
                     "include" to listOf("**/*.kt"),
-                    "exclude" to listOf("**/build/**")
+                    "exclude" to listOf(
+                        ".gradle/**",
+                        "**/build/**"
+                    )
                 )
             )
         )
@@ -52,6 +59,7 @@ configure<SpotlessExtension> {
         trimTrailingWhitespace()
         indentWithSpaces()
         endWithNewline()
+        toggleOffOn("spotless:off", "spotless:on")
     }
     kotlinGradle {
         target(
@@ -59,7 +67,10 @@ configure<SpotlessExtension> {
                 mapOf(
                     "dir" to ".",
                     "include" to listOf("**/*.gradle.kts", "*.gradle.kts"),
-                    "exclude" to listOf("**/build/**")
+                    "exclude" to listOf(
+                        ".gradle/**",
+                        "**/build/**"
+                    )
                 )
             )
         )
@@ -68,6 +79,11 @@ configure<SpotlessExtension> {
         trimTrailingWhitespace()
         indentWithSpaces()
         endWithNewline()
+        toggleOffOn("spotless:off", "spotless:on")
     }
     predeclareDeps()
+}
+
+configure<SpotlessExtensionPredeclare> {
+    kotlin { ktlint(Versions.KTLINT) }
 }

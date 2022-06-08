@@ -1,5 +1,5 @@
 package dependencies
 
 object TestDependencies {
-    const val JUNIT = "junit:junit:4.13.2:${Versions.JUNIT}"
+    const val JUNIT = "junit:junit:${Versions.JUNIT}"
 }
