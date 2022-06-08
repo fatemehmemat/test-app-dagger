@@ -31,7 +31,7 @@ interface AppComponent {
     @Component.Builder
     interface Builder {
         @BindsInstance
-        fun applicationContext(context: Context): Builder
+        fun applicationContext(@ApplicationContext context: Context): Builder
 
         fun build(): AppComponent
     }

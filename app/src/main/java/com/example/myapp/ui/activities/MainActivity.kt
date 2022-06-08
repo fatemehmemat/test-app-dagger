@@ -32,7 +32,7 @@ class MainActivity : AppCompatActivity(), HasAndroidInjector {
         super.onCreate(savedInstanceState)
         AndroidInjection.inject(this)
         setContentView(R.layout.activity_main)
-
+/*
         val homeFragment = HomeFragment()
         val personFragment = PersonFragment()
         val settingsFragment = SettingsFragment()
@@ -47,12 +47,12 @@ class MainActivity : AppCompatActivity(), HasAndroidInjector {
                 R.id.settings -> setCurrentFragment(settingsFragment)
             }
             true
-        }
+        }*/
     }
 
-    private fun setCurrentFragment(fragment: Fragment) =
+    /*private fun setCurrentFragment(fragment: Fragment) =
         supportFragmentManager.beginTransaction().apply {
             replace(R.id.flFragment, fragment)
             commit()
-        }
+        }*/
 }
